@@ -1,0 +1,20 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.freedesktop.SystemManager.User">
+    <method name="auth">
+      <arg name="username" type="s" direction="in"/>
+      <arg name="password" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
+    </method>
+  </interface>
+  <interface name="org.freedesktop.SystemManager.Network">
+    <method name="connect">
+      <arg name="interface" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="status">
+      <arg name="interface" type="s" direction="in"/>
+      <arg type="t" direction="out"/>
+    </method>
+  </interface>
+</node>

@@ -1,0 +1,12 @@
+1. 编写DBUS服务的Introspection的XML文件(如data/org.freedesktop.SystemManager.xml)
+
+2. 调用qdbusxml2cpp命令自动生成interface的adapter和proxy文件, 其中adapter负责为DBus接口接收请求, proxy为客户端调用DBus接口的代理
+
+# qdbusxml2cpp -c NetworkInterfaceAdapter -a network_adapter.h:network_adapter.cpp -N data/org.freedesktop.SystemManager.xml org.freedesktop.SystemManager.Network
+# qdbusxml2cpp -c UserInterfaceAdapter -a user_adapter.h:user_adapter.cpp -N data/org.freedesktop.SystemManager.xml org.freedesktop.SystemManager.User
+
+3. 编写DBus后台服务的对象，在该对象中将所有interface的method实现，每个method与adapter头文件中的method名字相同，保持对应. 在示例代码中对应SystemManagerService类
+
+4. 在main.cpp中添加SystemManagerService的注册，使service和dbus服务名称关联起来
+
+The QDBusAbstractAdaptor class is the starting point for all objects intending to provide interfaces to the external world using D-Bus. This is accomplished by attaching a one or more classes derived from QDBusAbstractAdaptor to a normal QObject and then registering that QObject with QDBusConnection::registerObject. QDBusAbstractAdaptor objects are intended to be light-weight wrappers, mostly just relaying calls into the real object (its parent) and the signals from it.
